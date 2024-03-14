@@ -41,10 +41,9 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"github.com/pkg/errors"
 	"math"
 	"sort"
-
-	"github.com/pkg/errors"
 )
 
 // MerkleTree is the structure for the Merkle tree.
@@ -268,6 +267,15 @@ func createLeaves(data [][]byte, dest [][]byte, hash HashType, salt, sortedLeave
 		}
 		sort.Sort(sorter)
 	}
+}
+
+func isZeroBytes(s []byte) bool {
+	for _, v := range s {
+		if v != 0 {
+			return false
+		}
+	}
+	return true
 }
 
 // Create the branch nodes from the existing leaf data.
